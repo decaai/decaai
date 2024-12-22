@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deca By Nao</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: #f0f0f0;
+            display: flex;
+        }
+        #sidebar {
+            width: 250px;
+            background-color: #2a2a2a;
+            padding: 20px;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+        #sidebar h2 {
+            color: #fff;
+        }
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #sidebar ul li {
+            margin: 20px 0;
+            cursor: pointer;
+            color: #ccc;
+        }
+        #sidebar ul li:hover {
+            color: #fff;
+        }
+        #chat-area {
+            flex-grow: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        #chat-window {
+            background-color: #333;
+            border-radius: 10px;
+            padding: 10px;
+            height: 80%;
+            overflow-y: scroll;
+            margin-bottom: 20px;
+        }
+        #input-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #input-area input {
+            width: 80%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #444;
+            color: #fff;
+        }
+        #input-area button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+        }
+        #input-area button:hover {
+            background-color: #0056b3;
+        }
+        .chat-message img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="sidebar">
+    <h2>Fitur DecaChat</h2>
+    <ul>
+        <li onclick="sendCommand('/husbu')">Husbu</li>
+        <li onclick="sendCommand('/loli')">Loli</li>
+        <li onclick="sendCommand('/ai')">ComingSoon</li>
+    </ul>
+</div>
+
+<div id="chat-area">
+    <div id="chat-window"></div>
+    <div id="input-area">
+        <input type="text" id="command-input" placeholder="Kirim Perintah" />
+        <button onclick="executeCommand()">Kirim</button>
+    </div>
+</div>
+
+<script>
+    const chatWindow = document.getElementById('chat-window');
+    const commandInput = document.getElementById('command-input');
+
+    function appendMessage(message, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('chat-message');
+        
+        if (message.startsWith('http')) {
+            // Agus nih bos tampleng donggg muachhhh
+            const img = document.createElement('img');
+            img.src = message;
+            messageDiv.appendChild(img);
+        } else {
+            messageDiv.textContent = sender + ': ' + message;
+        }
+        
+        chatWindow.appendChild(messageDiv);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+
+    function sendCommand(command) {
+        appendMessage(command, 'User012411');
+        fetchResponse(command);
+    }
+
+    async function fetchResponse(command) {
+        let imageUrl = '';
+
+      
+        if (command === '/husbu') {
+            imageUrl = 'https://beforelife.me/api/anime/husbu?apikey=HC-9NRYRw0xbyuGn3P';
+        } else if (command === '/loli') {
+            imageUrl = 'https://beforelife.me/api/anime/loli?apikey=HC-9NRYRw0xbyuGn3P';
+            imageUrl = 'https://agus.com';
+        } else {
+            appendMessage('Perintah tidak dikenal', 'Bot');
+            return;
+        }
+
+        
+        appendMessage(imageUrl, 'Bot');
+    }
+
+    function executeCommand() {
+        const command = commandInput.value.trim();
+        if (command) {
+            sendCommand(command);
+            commandInput.value = ''; 
+        }
+    }
+</script>
+
+</body>
+</html>
