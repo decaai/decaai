@@ -127,19 +127,51 @@
     async function fetchResponse(command) {
         let imageUrl = '';
 
-      
+        // Perintah untuk Husbu dan Loli
         if (command === '/husbu') {
             imageUrl = 'https://beforelife.me/api/anime/husbu?apikey=HC-9NRYRw0xbyuGn3P';
         } else if (command === '/loli') {
             imageUrl = 'https://beforelife.me/api/anime/loli?apikey=HC-9NRYRw0xbyuGn3P';
-            imageUrl = 'https://agus.com';
+        } else if (command === '/ai') {
+            // Jika perintah adalah /ai, gunakan OpenAI API
+            const response = await getAIResponse("Apa yang bisa saya bantu?");
+            appendMessage(response, 'Bot');
+            return;
         } else {
             appendMessage('Perintah tidak dikenal', 'Bot');
             return;
         }
 
-        
         appendMessage(imageUrl, 'Bot');
+    }
+
+    // Fungsi untuk berkomunikasi dengan OpenAI API
+    async function getAIResponse(prompt) {
+        const apiKey = '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';
+        
+        const requestBody = {
+            model: 'text-davinci-003', // Pilih model yang Anda inginkan
+            prompt: prompt,
+            max_tokens: 150, // Anda bisa menyesuaikan panjang respons
+            temperature: 0.7, // Untuk kreativitas respons
+        };
+
+        const response = await fetch('https://api.openai.com/v1/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`,
+            },
+            body: JSON.stringify(requestBody),
+        });
+
+        if (!response.ok) {
+            appendMessage('Terjadi kesalahan saat menghubungi OpenAI API.', 'Bot');
+            return;
+        }
+
+        const data = await response.json();
+        return data.choices[0].text.trim(); // Mengambil respons dari OpenAI
     }
 
     function executeCommand() {
