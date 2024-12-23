@@ -84,9 +84,9 @@
 <div id="sidebar">
     <h2>Fitur DecaChat</h2>
     <ul>
-        <li onclick="sendCommand('/husbu')">Husbu</li>
+        <li onclick="sendCommand('/ai')">Ai (text)</li>
         <li onclick="sendCommand('/loli')">Loli</li>
-        <li onclick="sendCommand('/ask-ai')">Ai</li>
+        <li onclick="sendCommand('/husbu')">Husbu</li>
     </ul>
 </div>
 
@@ -126,15 +126,16 @@
     async function fetchResponse(command) {
         let responseMessage = '';
         
-        if (command === '/husbu') {
-            responseMessage = 'Husbu command response';
-        } else if (command === '/loli') {
-            responseMessage = 'Loli command response';
-        } else if (command === '/ai') {
-            const userInput = commandInput.value.trim();
-            const aiResponse = await getAIResponse(userInput);  // Menanyakan ke OpenAI
+        // Mengecek jika perintah dimulai dengan '/ai'
+        if (command.startsWith('/ai ')) {
+            const userQuestion = command.slice(4).trim();  // Mengambil pertanyaan setelah '/ai'
+            const aiResponse = await getAIResponse(userQuestion);  // Menanyakan ke OpenAI
             appendMessage(aiResponse, 'Bot');
             return;
+        } else if (command === '/husbu') {
+       imageUrl = 'https://beforelife.me/api/anime/husbu?apikey=HC-9NRYRw0xbyuGn3P';
+        } else if (command === '/loli') {
+       imageUrl = 'https://beforelife.me/api/anime/loli?apikey=HC-9NRYRw0xbyuGn3P';
         } else {
             appendMessage('Perintah tidak dikenal', 'Bot');
             return;
@@ -143,17 +144,32 @@
         appendMessage(responseMessage, 'Bot');
     }
 
+    // Fungsi untuk berkomunikasi dengan OpenAI API
     async function getAIResponse(userInput) {
-        const response = await fetch('/ask-ai', {
+        const apiKey = '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';
+         // Ganti dengan API key Anda dari OpenAI
+
+        const response = await fetch('https://api.openai.com/v1/completions', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`,
             },
-            body: JSON.stringify({ prompt: userInput })
+            body: JSON.stringify({
+                model: 'text-davinci-003', // Pilih model yang Anda inginkan
+                prompt: userInput,
+                max_tokens: 150,
+                temperature: 0.7,
+            }),
         });
 
+        if (!response.ok) {
+            appendMessage('Terjadi kesalahan saat menghubungi OpenAI API.', 'Bot');
+            return;
+        }
+
         const data = await response.json();
-        return data.answer || 'Maaf, saya tidak bisa menjawab pertanyaan itu.';
+        return data.choices[0].text.trim(); // Mengambil respons dari OpenAI
     }
 
     function executeCommand() {
