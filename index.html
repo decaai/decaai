@@ -186,22 +186,13 @@
     let aiUsageCount = 0;
     const aiUsageLimit = 30; // Batas penggunaan AI per hari
 
-    function appendMessage(message, sender) {
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('chat-message');
-        
-        if (message.startsWith('http')) {
-            // Menampilkan gambar jika URL dimulai dengan 'http'
-            const img = document.createElement('img');
-            img.src = message;
-            messageDiv.appendChild(img);
-        } else {
-            messageDiv.textContent = sender + ': ' + message;
-        }
-        
-        chatWindow.appendChild(messageDiv);
-        chatWindow.scrollTop = chatWindow.scrollHeight;
-    }
+   function appendMessage(message, sender) {
+    const chatWindow = document.getElementById('chat-window');
+    const messageDiv = document.createElement('div');
+    messageDiv.textContent = sender + ': ' + message;
+    chatWindow.appendChild(messageDiv);
+    chatWindow.scrollTop = chatWindow.scrollHeight; // Scroll ke bawah
+}
 
     function sendCommand(command) {
         appendMessage(command, 'UserGuest-0045');
@@ -232,7 +223,7 @@
             aiUsageCount++; // Menambah penggunaan AI
 
             try {
-                const response = await fetch(apiUrl);
+                const response = getAIResponse(apiUrl);
                 if (!response.ok) {
                     appendMessage('Terjadi kesalahan saat menghubungi API.', 'Bot');
                     return;
