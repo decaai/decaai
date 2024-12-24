@@ -93,7 +93,7 @@
 <body>
 
 <div id="sidebar">
-    <h2>Fitur DecaChat</h2>
+    <h2>Deca-002-Bot</h2>
     <ul> 
         <p>AI Chat</p>
         <li onclick="sendCommand('/ai')">AI Chat (30x limit server)</li>
@@ -116,7 +116,7 @@
         <button onclick="executeCommand()">Kirim</button>
     </div>
     <!-- Tombol Ganti Gambar -->
-    <button id="change-image-btn" onclick="reloadPage()">Ganti Gambar</button>
+    <button id="change-image-btn" onclick="reloadPage()">Muat Ulang Fitur</button>
 </div>
 
 <script>
@@ -141,7 +141,7 @@
     }
 
     function sendCommand(command) {
-        appendMessage(command, 'User012411');
+        appendMessage(command, 'UserGuest-0045');
         fetchResponse(command);
     }
 
@@ -155,6 +155,8 @@
 
         const tanda = '?'
 
+        const mana = 'Text?'
+
       
         const features = ['water', 'pig', 'halloween', 'cake'];
         
@@ -167,20 +169,20 @@
                
                 if (text.trim() === '') {
                     requestUrl = `${baseUrl}${feature}?&apikey=HC-9NRYRw0xbyuGn3P`;
-                    appendMessage(`${features}?`, 'Bot');
+                    appendMessage(`${mana}?`, 'Deca-Ephoto');
                 } else {
                   
                     requestUrl = `${baseUrl}${feature}${tanda}${texts}${encodeURIComponent(text)}&apikey=HC-9NRYRw0xbyuGn3P`;
                 }
 
                 imageUrl = requestUrl;
-                appendMessage(imageUrl, 'Bot');
+                appendMessage(imageUrl, 'Deca-Auto-Generate');
                 return;
             }
         }
 
        
-        appendMessage('Perintah tidak dikenal', 'Bot');
+        appendMessage('?', 'Deca-Idk');
     }
 
     function executeCommand() {
@@ -193,7 +195,7 @@
 
     // Fungsi untuk mengirim perintah reload dan reload halaman
     function reloadPage() {
-        appendMessage('/reload', 'User012411');
+        appendMessage('/reload', 'Deca-Auto-Reload');
         setTimeout(() => {
             location.reload();  
         }, 1000);
