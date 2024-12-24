@@ -144,7 +144,13 @@
 
     async function fetchResponse(command) {
         let imageUrl = '';
-        const baseUrl = 'https://beforelife.me/api/ephoto/?text=';
+        const baseUrl = 'https://beforelife.me/api/ephoto/';
+
+
+        const texts =  'text='
+
+
+        const tanda = '?'
 
       
         const features = ['water', 'pig', 'halloween', 'cake'];
@@ -157,11 +163,11 @@
 
                
                 if (text.trim() === '') {
-                    requestUrl = `${baseUrl}${features}?&apikey=HC-9NRYRw0xbyuGn3P`;
+                    requestUrl = `${baseUrl}${feature}?&apikey=HC-9NRYRw0xbyuGn3P`;
                     appendMessage(`${features}?`, 'Bot');
                 } else {
                   
-                    requestUrl = `${baseUrl}${features}${encodeURIComponent(text)}&apikey=HC-9NRYRw0xbyuGn3P`;
+                    requestUrl = `${baseUrl}${feature}${tanda}${texts}${encodeURIComponent(text)}&apikey=HC-9NRYRw0xbyuGn3P`;
                 }
 
                 imageUrl = requestUrl;
