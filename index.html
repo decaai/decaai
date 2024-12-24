@@ -1,155 +1,189 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deca Asisten By Nao</title>
+    <title>Deca By Nao</title>
     <style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #121212;
-            color: #ffffff;
-            display: flex;
-            height: 100vh;
-        }
-
-        .sidebar {
-            width: 200px;
             background-color: #1e1e1e;
-            padding: 10px;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+            color: #f0f0f0;
+            display: flex;
         }
-
-        .sidebar button {
-            width: 100%;
-            margin: 10px 0;
-            padding: 10px;
-            background-color: #333;
+        #sidebar {
+            width: 250px;
+            background-color: #2a2a2a;
+            padding: 20px;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+        #sidebar h2 {
             color: #fff;
-            border: none;
+        }
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #sidebar ul li {
+            margin: 20px 0;
             cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            color: #ccc;
         }
-
-        .sidebar button:hover {
-            background-color: #444;
+        #sidebar ul li:hover {
+            color: #fff;
         }
-
-        .chat-container {
-            flex: 1;
+        #chat-area {
+            flex-grow: 1;
+            padding: 20px;
             display: flex;
             flex-direction: column;
+            justify-content: flex-end;
         }
-
-        .chat-box {
-            flex: 1;
-            overflow-y: auto;
-            padding: 10px;
-            background-color: #1a1a1a;
-            border-bottom: 2px solid #333;
-        }
-
-        .input-container {
-            display: flex;
-            padding: 10px;
-            background-color: #1e1e1e;
-        }
-
-        .input-container input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #333;
-            border-radius: 5px;
-            background-color: #262626;
-            color: #fff;
-        }
-
-        .input-container button {
-            margin-left: 10px;
-            padding: 10px 20px;
+        #chat-window {
             background-color: #333;
+            border-radius: 10px;
+            padding: 10px;
+            height: 80%;
+            overflow-y: scroll;
+            margin-bottom: 20px;
+        }
+        #input-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #input-area input {
+            width: 80%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #444;
             color: #fff;
+        }
+        #input-area button {
+            padding: 10px 20px;
+            background-color: #007bff;
             border: none;
             border-radius: 5px;
+            color: #fff;
             cursor: pointer;
-            transition: background-color 0.3s;
         }
-
-        .input-container button:hover {
-            background-color: #444;
+        #input-area button:hover {
+            background-color: #0056b3;
+        }
+        .chat-message img {
+            max-width: 100%;
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <button onclick="sendCommand('/husbu')">/husbu</button>
-        <button onclick="sendCommand('/loli')">/loli</button>
-        <button onclick="sendCommand('/waifu')">/waifu</button>
+
+<div id="sidebar">
+    <h2>Fitur DecaChat</h2>
+    <ul>
+        <li onclick="sendCommand('/husbu')">Husbu</li>
+        <li onclick="sendCommand('/loli')">Loli</li>
+        <li onclick="sendCommand('/waifu')">Waifu</li>
+    </ul>
+</div>
+
+<div id="chat-area">
+    <div id="chat-window"></div>
+    <div id="input-area">
+        <input type="text" id="command-input" placeholder="Kirim Perintah" />
+        <button onclick="executeCommand()">Kirim</button>
     </div>
-    <div class="chat-container">
-        <div id="chat-box" class="chat-box"></div>
-        <div class="input-container">
-            <input type="text" id="user-input" placeholder="Type your message here...">
-            <button onclick="sendMessage()">Send</button>
-        </div>
-    </div>
+</div>
 
-    <script>
-        const chatBox = document.getElementById('chat-box');
+<script>
+    const chatWindow = document.getElementById('chat-window');
+    const commandInput = document.getElementById('command-input');
 
-        function sendMessage() {
-            const userInput = document.getElementById('user-input');
-            const message = userInput.value;
-            if (message.trim() === '') return;
+    function appendMessage(message, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('chat-message');
+        
+        if (message.startsWith('http')) {
+            // Agus nih bos tampleng donggg muachhhh
+            const img = document.createElement('img');
+            img.src = message;
+            messageDiv.appendChild(img);
+        } else {
+            messageDiv.textContent = sender + ': ' + message;
+        }
+        
+        chatWindow.appendChild(messageDiv);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
 
-            addMessage('You', message);
-            userInput.value = '';
+    function sendCommand(command) {
+        appendMessage(command, 'User012411');
+        fetchResponse(command);
+    }
 
-            // Simulate AI response (replace with actual API call)
-            setTimeout(() => {
-                addMessage('AI', `You said: ${message}`);
-            }, 1000);
+    async function fetchResponse(command) {
+        let imageUrl = '';
+
+        // Perintah untuk Husbu dan Loli
+        if (command === '/husbu') {
+            imageUrl = 'https://beforelife.me/api/anime/husbu?apikey=HC-9NRYRw0xbyuGn3P';
+        if (command === '/loli') {
+            imageUrl = 'https://beforelife.me/api/anime/loli?apikey=HC-9NRYRw0xbyuGn3P';
+	    if (command === '/waifu') {
+            imageUrl = 'https://beforelife.me/api/anime/waifu?apikey=HC-9NRYRw0xbyuGn3P';
+        } else if (command === '/ai') {
+            // Jika perintah adalah /ai, gunakan OpenAI API
+            const response = await getAIResponse("Apa yang bisa saya bantu?");
+            appendMessage(response, 'Bot');
+            return;
+        } else {
+            appendMessage('Perintah tidak dikenal', 'Bot');
+            return;
         }
 
-        function sendCommand(command) {
-            addMessage('You', command);
+        appendMessage(imageUrl, 'Bot');
+    }
 
-            let apiUrl = '';
-            if (command === '/husbu') {
-                apiUrl = 'https://beforelife.me/api/anime/husbu?apikey=HC-9NRYRw0xbyuGn3P';
-            } else if (command === '/loli') {
-                apiUrl = 'https://beforelife.me/api/anime/loli?apikey=HC-9NRYRw0xbyuGn3P';
-            } else if (command === '/waifu') {
-                apiUrl = 'https://beforelife.me/api/anime/waifu?apikey=HC-9NRYRw0xbyuGn3P';
-            }
+    // Fungsi untuk berkomunikasi dengan OpenAI API
+    async function getAIResponse(prompt) {
+        const apiKey = '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';
+        
+        const requestBody = {
+            model: 'text-davinci-003', // Pilih model yang Anda inginkan
+            prompt: prompt,
+            max_tokens: 150, // Anda bisa menyesuaikan panjang respons
+            temperature: 0.7, // Untuk kreativitas respons
+        };
 
-            // Fetch image from API
-            fetch(apiUrl)
-                .then(response => response.json())
-                .then(data => {
-                    addImage('AI', data.imageUrl);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    addMessage('AI', 'Failed to fetch image.');
-                });
+        const response = await fetch('https://api.openai.com/v1/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`,
+            },
+            body: JSON.stringify(requestBody),
+        });
+
+        if (!response.ok) {
+            appendMessage('Terjadi kesalahan saat menghubungi OpenAI API.', 'Bot');
+            return;
         }
 
-        function addMessage(sender, message) {
-            const messageElement = document.createElement('div');
-            messageElement.textContent = `${sender}: ${message}`;
-            chatBox.appendChild(messageElement);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
+        const data = await response.json();
+        return data.choices[0].text.trim(); // Mengambil respons dari OpenAI
+    }
 
-        function addImage(sender, imageUrl) {
-            const messageElement = document.createElement('div');
-            messageElement.innerHTML = `${sender}: <img src="${imageUrl}" alt="Image" style="max-width: 100%;">`;
-            chatBox.appendChild(messageElement);
-            chatBox.scrollTop = chatBox.scrollHeight;
+    function executeCommand() {
+        const command = commandInput.value.trim();
+        if (command) {
+            sendCommand(command);
+            commandInput.value = ''; 
         }
-    </script>
+    }
+</script>
+
 </body>
 </html>
