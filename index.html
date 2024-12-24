@@ -157,23 +157,23 @@
         } else if (command === '/waifu') {
             imageUrl = 'https://beforelife.me/api/anime/waifu?apikey=HC-9NRYRw0xbyuGn3P';
         } else if (command.startsWith('/ai ')) {
-            // Mengambil pertanyaan dari perintah /ai
-            const question = command.slice(4); // Mengambil teks setelah /ai
+         
+            const question = command.slice(4); 
             const apiUrl = `https://api.caliph.biz.id/api/ai/oai-gpt?q=${encodeURIComponent(question)}&apikey=c40317d8fa81497a`;
 
             if (aiUsageCount >= aiUsageLimit) {
-                appendMessage('Fitur AI sudah mencapai batas penggunaan 30 kali sehari.', 'Bot');
+                appendMessage('Fitur AI sudah mencapai batas penggunaan', 'Bot');
                 aiLimitMsg.textContent = 'Fitur AI sudah tidak bisa digunakan lagi hari ini.';
                 return;
             } else {
-                aiUsageCount++; // Increment penggunaan AI
+                aiUsageCount++; 
                 const response = await getAIResponse(apiUrl);
                 appendMessage(response, 'Bot');
-                aiLimitMsg.textContent = `Sisa penggunaan AI hari ini: ${aiUsageLimit - aiUsageCount}`;
+                aiLimitMsg.textContent = `Fitur AI memiliki limit server`;
                 return;
             }
         } else {
-            appendMessage('Perintah tidak dikenal', 'Bot');
+            appendMessage('Text?', 'Bot');
             return;
         }
 
@@ -188,25 +188,25 @@
         }
     }
 
-    // Fungsi untuk mengirim perintah reload dan reload halaman
+   
     function reloadPage() {
         appendMessage('/reload', 'User012411');
         setTimeout(() => {
-            location.reload();  // Reload halaman secara langsung
-        }, 1000); // Tunggu 1 detik sebelum halaman di-reload
+            location.reload();  
+        }, 1000); 
     }
 
-    // Fungsi untuk berkomunikasi dengan OpenAI API
+    // agus nih bos rawrrrrrrrrrrrrrrrrrrrrrrrrrr
     async function getAIResponse(apiUrl) {
         const response = await fetch(apiUrl);
 
         if (!response.ok) {
-            appendMessage('Terjadi kesalahan saat menghubungi API.', 'Bot');
+            appendMessage('Limit server AI telah habis, limit di restart setiap jam 05.00 AM.', 'Bot');
             return;
         }
 
         const data = await response.json();
-        return data.result || 'Tidak ada respons dari API'; // Mengambil respons dari API
+        return data.result || 'Limit server AI telah habis, limit di restart setiap jam 05.00 AM'; 
     }
 </script>
 
