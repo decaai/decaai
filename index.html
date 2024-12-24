@@ -186,13 +186,22 @@
     let aiUsageCount = 0;
     const aiUsageLimit = 30; // Batas penggunaan AI per hari
 
-   function appendMessage(message, sender) {
-    const chatWindow = document.getElementById('chat-window');
-    const messageDiv = document.createElement('div');
-    messageDiv.textContent = sender + ': ' + message;
-    chatWindow.appendChild(messageDiv);
-    chatWindow.scrollTop = chatWindow.scrollHeight; // Scroll ke bawah
-}
+    function appendMessage(message, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('chat-message');
+        
+        if (message.startsWith('http')) {
+            // Menampilkan gambar jika URL dimulai dengan 'http'
+            const img = document.createElement('img');
+            img.src = message;
+            messageDiv.appendChild(img);
+        } else {
+            messageDiv.textContent = sender + ': ' + message;
+        }
+        
+        chatWindow.appendChild(messageDiv);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
 
     function sendCommand(command) {
         appendMessage(command, 'UserGuest-0045');
@@ -210,35 +219,20 @@
         } else if (command === '/waifu') {
             imageUrl = 'https://beforelife.me/api/anime/waifu?apikey=HC-9NRYRw0xbyuGn3P';
         } else if (command.startsWith('/ai ')) {
-            // Mengambil teks setelah '/ai '
-            const userInput = command.slice(4);
-            const apiUrl = `https://api.ryzendesu.vip/api/ai/claude?text=${encodeURIComponent(userInput)}`;
+            // Mengambil pertanyaan dari perintah /ai
+            const question = command.slice(4); // Mengambil teks setelah /ai
+            const apiUrl = `https://api.ryzendesu.vip/api/ai/claude?text=${encodeURIComponent(question)}`;
 
             if (aiUsageCount >= aiUsageLimit) {
                 appendMessage('Fitur AI sudah mencapai batas penggunaan 30 kali sehari.', 'Bot');
                 aiLimitMsg.textContent = 'Fitur AI sudah tidak bisa digunakan lagi hari ini.';
                 return;
-            }
-
-            aiUsageCount++; // Menambah penggunaan AI
-
-            try {
-                const response = getAIResponse(apiUrl);
-                if (!response.ok) {
-                    appendMessage('Terjadi kesalahan saat menghubungi API.', 'Bot');
-                    return;
-                }
-
-                const data = await response.json();
-                const aiResponse = data.result || 'Tidak ada respons dari API';
-                appendMessage(aiResponse, 'Bot');
-
+            } else {
+                aiUsageCount++; // Increment penggunaan AI
+                const response = await getAIResponse(apiUrl);
+                appendMessage(response, 'Bot');
                 aiLimitMsg.textContent = `Sisa penggunaan AI hari ini: ${aiUsageLimit - aiUsageCount}`;
-            } catch (error) {
-                appendMessage('Terjadi kesalahan saat menghubungi API.', 'Bot');
-            }
-            return;
-        }
+                return;
             }
         } else {
             const baseUrl = 'https://beforelife.me/api/ephoto/';
