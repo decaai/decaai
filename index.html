@@ -129,52 +129,53 @@
 <script>
     // Fungsi untuk mengeksekusi perintah
     function executeCommand() {
-        const commandInput = document.getElementById('command-input'); 
-        const command = commandInput.value.trim(); 
+        const commandInput = document.getElementById('command-input'); // Ambil input dari form
+        const command = commandInput.value.trim(); // Ambil nilai input dan hilangkan spasi di sekitar
         
-     
+        // Cek apakah input tidak kosong
         if (command) {
-            sendCommand(command); 
-            commandInput.value = ''; 
+            sendCommand(command); // Kirim perintah ke server atau API
+            commandInput.value = ''; // Reset input setelah mengirim perintah
         } else {
-            alert(Perintah dilarang kosong!"); 
+            alert("Perintah tidak boleh kosong!"); // Tampilkan peringatan jika input kosong
         }
     }
 
-    
+    // Fungsi untuk mengirimkan perintah ke chat
     function sendCommand(command) {
         const chatWindow = document.getElementById('chat-window');
         
-       
+        // Membuat elemen baru untuk pesan
         const messageDiv = document.createElement('div');
         messageDiv.textContent = "User: " + command;
         chatWindow.appendChild(messageDiv);
         
-       
+        // Scroll chat ke bawah agar pesan terbaru terlihat
         chatWindow.scrollTop = chatWindow.scrollHeight;
 
-       
+        // Call fetchResponse atau server API untuk mendapatkan respons
         fetchResponse(command);
     }
 
-   
+    // Fungsi untuk mengambil respon dari perintah
     async function fetchResponse(command) {
-        
-        const responseMessage = "Respon dari AI: " + command; 
+        // Implementasikan logika pengambilan response dari server/API
+        // Contoh ini hanya untuk simulasi
+        const responseMessage = "Respon dari AI: " + command; // Ganti dengan respons nyata
         const chatWindow = document.getElementById('chat-window');
 
         const responseDiv = document.createElement('div');
         responseDiv.textContent = responseMessage;
         chatWindow.appendChild(responseDiv);
         
-       
+        // Scroll chat ke bawah agar pesan terbaru terlihat
         chatWindow.scrollTop = chatWindow.scrollHeight;
     }
 
-    
+    // Fungsi untuk reload halaman
     function reloadPage() {
         alert('Muat ulang fitur');
-        location.reload(); 
+        location.reload();  // Reload halaman
     }
 </script>
 
@@ -183,14 +184,14 @@
     const commandInput = document.getElementById('command-input');
     const aiLimitMsg = document.getElementById('ai-limit-msg');
     let aiUsageCount = 0;
-    const aiUsageLimit = 30; 
+    const aiUsageLimit = 30; // Batas penggunaan AI per hari
 
     function appendMessage(message, sender) {
         const messageDiv = document.createElement('div');
         messageDiv.classList.add('chat-message');
         
         if (message.startsWith('http')) {
-           
+            // Menampilkan gambar jika URL dimulai dengan 'http'
             const img = document.createElement('img');
             img.src = message;
             messageDiv.appendChild(img);
@@ -210,7 +211,7 @@
     async function fetchResponse(command) {
         let imageUrl = '';
 
-      
+        // Perintah untuk Husbu, Loli, dan Waifu
         if (command === '/husbu') {
             imageUrl = 'https://beforelife.me/api/anime/husbu?apikey=HC-9NRYRw0xbyuGn3P';
         } else if (command === '/loli') {
@@ -282,7 +283,7 @@
         }
 
         const data = await response.json();
-        return data.result || 'Tidak ada respons dari API'; 
+        return data.result || 'Tidak ada respons dari API'; // Mengambil respons dari API
     }
 </script>
 
