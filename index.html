@@ -229,7 +229,7 @@
                 return;
             } else {
                 aiUsageCount++; // Increment penggunaan AI
-                const response = await getAIResponse(apiUrl);
+                const response = await getResponse(apiUrl);
                 appendMessage(response, 'Bot');
                 aiLimitMsg.textContent = `Sisa penggunaan AI hari ini: ${aiUsageLimit - aiUsageCount}`;
                 return;
