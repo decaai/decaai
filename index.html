@@ -162,6 +162,15 @@
 
         currentImageUrl = imageUrl;  // Menyimpan gambar yang sedang ditampilkan
         appendMessage(imageUrl, 'Bot');
+          
+        }
+    
+            function executeCommand() {
+        const command = commandInput.value.trim();
+        if (command) {
+            sendCommand(command);
+            commandInput.value = ''; 
+        }
     }
 
     async function fetchResponse(command) {
