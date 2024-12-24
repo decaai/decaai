@@ -88,6 +88,17 @@
         #change-image-btn:hover {
             background-color: #218838;
         }
+        #reload-btn {
+            background-color: #dc3545;
+            border-radius: 5px;
+            padding: 10px 20px;
+            color: white;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        #reload-btn:hover {
+            background-color: #c82333;
+        }
     </style>
 </head>
 <body>
@@ -108,6 +119,8 @@
         <button onclick="executeCommand()">Kirim</button>
     </div>
     <button id="change-image-btn" onclick="changeImage()">Ganti Gambar</button>
+    <!-- Button Reload Picture -->
+    <button id="reload-btn" onclick="reloadPage()">Reload Picture</button>
 </div>
 
 <script>
@@ -173,6 +186,14 @@
         } else {
             appendMessage('Tidak ada gambar untuk diganti', 'Bot');
         }
+    }
+
+    // Fungsi untuk mengirim perintah reload dan reload halaman
+    function reloadPage() {
+        appendMessage('/reload', 'User012411');
+        setTimeout(() => {
+            location.reload();  // Reload halaman setelah 2 detik
+        }, 2000); // Tunggu 2 detik agar perintah tampil terlebih dahulu di chat
     }
 </script>
 
