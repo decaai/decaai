@@ -77,6 +77,17 @@
             max-width: 100%;
             border-radius: 10px;
         }
+        #change-image-btn {
+            background-color: #28a745;
+            border-radius: 5px;
+            padding: 10px 20px;
+            color: white;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        #change-image-btn:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
@@ -96,11 +107,13 @@
         <input type="text" id="command-input" placeholder="Kirim Perintah" />
         <button onclick="executeCommand()">Kirim</button>
     </div>
+    <button id="change-image-btn" onclick="changeImage()">Ganti Gambar</button>
 </div>
 
 <script>
     const chatWindow = document.getElementById('chat-window');
     const commandInput = document.getElementById('command-input');
+    let currentImageUrl = '';
 
     function appendMessage(message, sender) {
         const messageDiv = document.createElement('div');
@@ -139,11 +152,8 @@
             return;
         }
 
+        currentImageUrl = imageUrl;  // Menyimpan gambar yang sedang ditampilkan
         appendMessage(imageUrl, 'Bot');
-        // Reload halaman setelah gambar ditampilkan
-        setTimeout(function() {
-            location.reload();
-        }, 2000); // Reload halaman setelah 2 detik
     }
 
     function executeCommand() {
@@ -151,6 +161,17 @@
         if (command) {
             sendCommand(command);
             commandInput.value = ''; 
+        }
+    }
+
+    function changeImage() {
+        if (currentImageUrl) {
+            appendMessage('Mengganti gambar...', 'Bot');
+            setTimeout(() => {
+                fetchResponse(currentImageUrl);  // Mengambil gambar baru
+            }, 1000);  // Tunggu 1 detik sebelum mengganti gambar
+        } else {
+            appendMessage('Tidak ada gambar untuk diganti', 'Bot');
         }
     }
 </script>
