@@ -107,7 +107,7 @@
         messageDiv.classList.add('chat-message');
         
         if (message.startsWith('http')) {
-            // Agus nih bos tampleng donggg muachhhh
+            // Menampilkan gambar jika URL dimulai dengan 'http'
             const img = document.createElement('img');
             img.src = message;
             messageDiv.appendChild(img);
@@ -127,7 +127,7 @@
     async function fetchResponse(command) {
         let imageUrl = '';
 
-        // Perintah untuk Husbu dan Loli
+        // Perintah untuk Husbu, Loli, dan Waifu
         if (command === '/husbu') {
             imageUrl = 'https://beforelife.me/api/anime/husbu?apikey=HC-9NRYRw0xbyuGn3P';
         } else if (command === '/loli') {
@@ -140,6 +140,10 @@
         }
 
         appendMessage(imageUrl, 'Bot');
+        // Reload halaman setelah gambar ditampilkan
+        setTimeout(function() {
+            location.reload();
+        }, 2000); // Reload halaman setelah 2 detik
     }
 
     function executeCommand() {
