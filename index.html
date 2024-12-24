@@ -157,11 +157,11 @@
 
                
                 if (text.trim() === '') {
-                    requestUrl = `${baseUrl}${feature}?&apikey=HC-9NRYRw0xbyuGn3P`;
-                    appendMessage(`${feature}?`, 'Bot');
+                    requestUrl = `${baseUrl}${features}?&apikey=HC-9NRYRw0xbyuGn3P`;
+                    appendMessage(`${features}?`, 'Bot');
                 } else {
                   
-                    requestUrl = `${baseUrl}${encodeURIComponent(text)}&apikey=HC-9NRYRw0xbyuGn3P`;
+                    requestUrl = `${baseUrl}${features}${encodeURIComponent(text)}&apikey=HC-9NRYRw0xbyuGn3P`;
                 }
 
                 imageUrl = requestUrl;
