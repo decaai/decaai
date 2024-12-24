@@ -221,10 +221,10 @@
         } else if (command.startsWith('/ai ')) {
             // Mengambil pertanyaan dari perintah /ai
             const question = command.slice(4); // Mengambil teks setelah /ai
-            const apiUrl = `https://api.caliph.biz.id/api/ai/oai-gpt?q=${encodeURIComponent(question)}&apikey=c40317d8fa81497a`;
+            const apiUrl = `https://api.ryzendesu.vip/api/ai/claude?text=${encodeURIComponent(question)}`;
 
             if (aiUsageCount >= aiUsageLimit) {
-                appendMessage('Fitur AI sudah mencapai batas penggunaan 5 kali sehari.', 'Bot');
+                appendMessage('Fitur AI sudah mencapai batas penggunaan 30 kali sehari.', 'Bot');
                 aiLimitMsg.textContent = 'Fitur AI sudah tidak bisa digunakan lagi hari ini.';
                 return;
             } else {
