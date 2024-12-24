@@ -88,17 +88,6 @@
         #change-image-btn:hover {
             background-color: #218838;
         }
-        #reload-btn {
-            background-color: #dc3545;
-            border-radius: 5px;
-            padding: 10px 20px;
-            color: white;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        #reload-btn:hover {
-            background-color: #c82333;
-        }
     </style>
 </head>
 <body>
@@ -118,15 +107,13 @@
         <input type="text" id="command-input" placeholder="Kirim Perintah" />
         <button onclick="executeCommand()">Kirim</button>
     </div>
-    <button id="change-image-btn" onclick="changeImage()">Ganti Gambar</button>
-    <!-- Button Reload Picture -->
-    <button id="reload-btn" onclick="reloadPage()">Reload Picture</button>
+    <!-- Tombol Ganti Gambar -->
+    <button id="change-image-btn" onclick="reloadPage()">Ganti Gambar</button>
 </div>
 
 <script>
     const chatWindow = document.getElementById('chat-window');
     const commandInput = document.getElementById('command-input');
-    let currentImageUrl = '';
 
     function appendMessage(message, sender) {
         const messageDiv = document.createElement('div');
@@ -165,7 +152,6 @@
             return;
         }
 
-        currentImageUrl = imageUrl;  // Menyimpan gambar yang sedang ditampilkan
         appendMessage(imageUrl, 'Bot');
     }
 
@@ -177,23 +163,12 @@
         }
     }
 
-    function changeImage() {
-        if (currentImageUrl) {
-            appendMessage('Mengganti gambar...', 'Bot');
-            setTimeout(() => {
-                fetchResponse(currentImageUrl);  // Mengambil gambar baru
-            }, 1000);  // Tunggu 1 detik sebelum mengganti gambar
-        } else {
-            appendMessage('Tidak ada gambar untuk diganti', 'Bot');
-        }
-    }
-
     // Fungsi untuk mengirim perintah reload dan reload halaman
     function reloadPage() {
         appendMessage('/reload', 'User012411');
         setTimeout(() => {
-            location.reload();  // Reload halaman setelah 2 detik
-        }, 2000); // Tunggu 2 detik agar perintah tampil terlebih dahulu di chat
+            location.reload();  // Reload halaman secara langsung
+        }, 1000); // Tunggu 1 detik sebelum halaman di-reload
     }
 </script>
 
