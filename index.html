@@ -144,6 +144,24 @@
         appendMessage(command, 'UserGuest-0045');
         fetchResponse(command);
     }
+      async function fetchResponse(command) {
+        let imageUrl = '';
+
+        // Perintah untuk Husbu, Loli, dan Waifu
+        if (command === '/husbu') {
+            imageUrl = 'https://beforelife.me/api/anime/husbu?apikey=HC-9NRYRw0xbyuGn3P';
+        } else if (command === '/loli') {
+            imageUrl = 'https://beforelife.me/api/anime/loli?apikey=HC-9NRYRw0xbyuGn3P';
+        } else if (command === '/waifu') {
+            imageUrl = 'https://beforelife.me/api/anime/waifu?apikey=HC-9NRYRw0xbyuGn3P';
+        } else {
+            appendMessage('Perintah tidak dikenal', 'Bot');
+            return;
+        }
+
+        currentImageUrl = imageUrl;  // Menyimpan gambar yang sedang ditampilkan
+        appendMessage(imageUrl, 'Bot');
+    }
 
     async function fetchResponse(command) {
         let imageUrl = '';
