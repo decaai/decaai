@@ -88,6 +88,10 @@
         #change-image-btn:hover {
             background-color: #218838;
         }
+        #ai-limit-msg {
+            color: red;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -117,18 +121,22 @@
     </div>
     <!-- Tombol Ganti Gambar -->
     <button id="change-image-btn" onclick="reloadPage()">Muat Ulang Fitur</button>
+    <div id="ai-limit-msg"></div> <!-- Pesan batasan penggunaan AI -->
 </div>
 
 <script>
     const chatWindow = document.getElementById('chat-window');
     const commandInput = document.getElementById('command-input');
+    const aiLimitMsg = document.getElementById('ai-limit-msg');
+    let aiUsageCount = 0;
+    const aiUsageLimit = 30; // Batas penggunaan AI per hari
 
     function appendMessage(message, sender) {
         const messageDiv = document.createElement('div');
         messageDiv.classList.add('chat-message');
         
         if (message.startsWith('http')) {
-           
+            // Menampilkan gambar jika URL dimulai dengan 'http'
             const img = document.createElement('img');
             img.src = message;
             messageDiv.appendChild(img);
@@ -144,8 +152,8 @@
         appendMessage(command, 'UserGuest-0045');
         fetchResponse(command);
     }
-    
-      async function fetchResponse(command) {
+
+    async function fetchResponse(command) {
         let imageUrl = '';
 
         // Perintah untuk Husbu, Loli, dan Waifu
@@ -155,78 +163,72 @@
             imageUrl = 'https://beforelife.me/api/anime/loli?apikey=HC-9NRYRw0xbyuGn3P';
         } else if (command === '/waifu') {
             imageUrl = 'https://beforelife.me/api/anime/waifu?apikey=HC-9NRYRw0xbyuGn3P';
+        } else if (command.startsWith('/ai ')) {
+            // Mengambil pertanyaan dari perintah /ai
+            const question = command.slice(4); // Mengambil teks setelah /ai
+            const apiUrl = `https://api.caliph.biz.id/api/ai/oai-gpt?q=${encodeURIComponent(question)}&apikey=c40317d8fa81497a`;
+
+            if (aiUsageCount >= aiUsageLimit) {
+                appendMessage('Fitur AI sudah mencapai batas penggunaan 30 kali sehari.', 'Bot');
+                aiLimitMsg.textContent = 'Fitur AI sudah tidak bisa digunakan lagi hari ini.';
+                return;
+            } else {
+                aiUsageCount++; // Increment penggunaan AI
+                const response = await getAIResponse(apiUrl);
+                appendMessage(response, 'Bot');
+                aiLimitMsg.textContent = `Sisa penggunaan AI hari ini: ${aiUsageLimit - aiUsageCount}`;
+                return;
+            }
         } else {
-            appendMessage('Perintah tidak dikenal', 'Bot');
+            const baseUrl = 'https://beforelife.me/api/ephoto/';
+            const texts = 'text=';
+            const tanda = '?';
+            const mana = 'Text?';
+            const features = ['water', 'pig', 'halloween', 'cake'];
+            
+            for (let feature of features) {
+                if (command.startsWith(`/${feature}`)) {
+                    const text = command.slice(feature.length + 2); 
+                    let requestUrl = '';
+
+                    if (text.trim() === '') {
+                        requestUrl = `${baseUrl}${feature}?&apikey=HC-9NRYRw0xbyuGn3P`;
+                        appendMessage(`${mana}?`, 'Deca-Ephoto');
+                    } else {
+                        requestUrl = `${baseUrl}${feature}${tanda}${texts}${encodeURIComponent(text)}&apikey=HC-9NRYRw0xbyuGn3P`;
+                    }
+
+                    imageUrl = requestUrl;
+                    appendMessage(imageUrl, 'Deca-Auto-Generate');
+                    return;
+                }
+            }
+
+            appendMessage('?', 'Deca-Idk');
             return;
         }
 
-        currentImageUrl = imageUrl;  // Menyimpan gambar yang sedang ditampilkan
         appendMessage(imageUrl, 'Bot');
-          
-        }
-    
-            function executeCommand() {
-        const command = commandInput.value.trim();
-        if (command) {
-            sendCommand(command);
-            commandInput.value = ''; 
-        }
-    }
-
-    async function fetchResponse(command) {
-        let imageUrl = '';
-        const baseUrl = 'https://beforelife.me/api/ephoto/';
-
-
-        const texts =  'text='
-
-
-        const tanda = '?'
-
-        const mana = 'Text?'
-
-      
-        const features = ['water', 'pig', 'halloween', 'cake'];
-        
-       
-        for (let feature of features) {
-            if (command.startsWith(`/${feature}`)) {
-                const text = command.slice(feature.length + 2); 
-                let requestUrl = '';
-
-               
-                if (text.trim() === '') {
-                    requestUrl = `${baseUrl}${feature}?&apikey=HC-9NRYRw0xbyuGn3P`;
-                    appendMessage(`${mana}?`, 'Deca-Ephoto');
-                } else {
-                  
-                    requestUrl = `${baseUrl}${feature}${tanda}${texts}${encodeURIComponent(text)}&apikey=HC-9NRYRw0xbyuGn3P`;
-                }
-
-                imageUrl = requestUrl;
-                appendMessage(imageUrl, 'Deca-Auto-Generate');
-                return;
-            }
-        }
-
-       
-        appendMessage('?', 'Deca-Idk');
-    }
-
-    function executeCommand() {
-        const command = commandInput.value.trim();
-        if (command) {
-            sendCommand(command);
-            commandInput.value = ''; 
-        }
     }
 
     // Fungsi untuk mengirim perintah reload dan reload halaman
     function reloadPage() {
-        appendMessage('/reload', 'Deca-Auto-Reload');
+        appendMessage('/reload', 'UserGuest-0045');
         setTimeout(() => {
             location.reload();  
-        }, 1000);
+        }, 1000); // Tunggu 1 detik sebelum halaman di-reload
+    }
+
+    async function getAIResponse(apiUrl) {
+        const response = await fetch(apiUrl);
+
+        if (!response.ok) {
+            appendMessage('Terjadi kesalahan saat menghubungi API.', 'Bot');
+            return;
+        }
+
+        const data = await response.json();
+        return data.result || 'Tidak ada respons dari API'; // Mengambil respons dari API
     }
 </script>
 
