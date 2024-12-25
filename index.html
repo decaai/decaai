@@ -264,7 +264,7 @@
             // Ambil teka-teki baru dari API
             const apiUrl = 'https://api.velixs.com/random-games?apikey=7ea543de712c083ddca99a35a85aee3cb0095c09d5f1630b58&game=tekateki';
             const response = await fetch(apiUrl);
-
+    }
             if (response.ok) {
                 const data = await response.json();
                 const soal = data.soal || 'Teka-teki tidak ditemukan.';
