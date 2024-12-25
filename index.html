@@ -234,6 +234,7 @@
                 aiLimitMsg.textContent = `Sisa penggunaan AI hari ini: ${aiUsageLimit - aiUsageCount}`;
                 return;
             }
+            
         } else {
             const baseUrl = 'https://beforelife.me/api/ephoto/';
             const texts = 'text=';
@@ -257,6 +258,32 @@
                     appendMessage(imageUrl, 'Deca-Auto-Generate');
                     return;
                 }
+                
+                    async function fetchResponse(command) {
+        if (command === '/tekateki') {
+            // Ambil teka-teki baru dari API
+            const apiUrl = 'https://api.velixs.com/random-games?apikey=7ea543de712c083ddca99a35a85aee3cb0095c09d5f1630b58&game=tekateki';
+            const response = await fetch(apiUrl);
+
+            if (response.ok) {
+                const data = await response.json();
+                const soal = data.soal || 'Teka-teki tidak ditemukan.';
+                currentTekaTekiAnswer = data.jawaban || '';
+
+                appendMessage(soal, 'Bot');
+            } else {
+                appendMessage('Gagal memuat teka-teki.', 'Bot');
+            }
+            return;
+                }
+       if (currentTekaTekiAnswer && command.toLowerCase() === currentTekaTekiAnswer.toLowerCase()) {
+            appendMessage('Benar! Jawaban kamu tepat.', 'Bot');
+            currentTekaTekiAnswer = ""; // Reset jawaban
+        } else if (currentTekaTekiAnswer) {
+            appendMessage('Salah! Coba lagi.', 'Bot');
+        } else {
+            handleOtherCommands(command);
+        }
             }
 
             appendMessage('?', 'Deca-Idk');
