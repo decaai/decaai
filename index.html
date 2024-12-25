@@ -221,7 +221,7 @@
         } else if (command.startsWith('/ai ')) {
             // Mengambil pertanyaan dari perintah /ai
             const question = command.slice(4); // Mengambil teks setelah /ai
-            const apiUrl = `https://api.ryzendesu.vip/api/ai/claude?text=${encodeURIComponent(question)}`;
+            const apiUrl = `https://api.velixs.com/nakiri?apikey=7ea543de712c083ddca99a35a85aee3cb0095c09d5f1630b58&text=${encodeURIComponent(question)}`;
 
             if (aiUsageCount >= aiUsageLimit) {
                 appendMessage('Fitur AI sudah mencapai batas penggunaan 30 kali sehari.', 'Bot');
