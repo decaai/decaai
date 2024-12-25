@@ -221,7 +221,7 @@
         } else if (command.startsWith('/ai ')) {
             // Mengambil pertanyaan dari perintah /ai
             const question = command.slice(4); // Mengambil teks setelah /ai
-            const apiUrl = `https://vihangayt.me/tools/chatgpt?q=${encodeURIComponent(question)}`;
+            const agus = `https://vihangayt.me/tools/chatgpt?q=${encodeURIComponent(question)}`;
 
             if (aiUsageCount >= aiUsageLimit) {
                 appendMessage('Fitur AI sudah mencapai batas penggunaan 30 kali sehari.', 'Bot');
@@ -229,7 +229,7 @@
                 return;
             } else {
                 aiUsageCount++; // Increment penggunaan AI
-                const response = await getAIResponse(apiUrl);
+                const response = await getAIResponse(agus);
                 appendMessage(response, 'Bot');
                 aiLimitMsg.textContent = `Sisa penggunaan AI hari ini: ${aiUsageLimit - aiUsageCount}`;
                 return;
