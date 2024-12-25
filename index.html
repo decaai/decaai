@@ -116,12 +116,68 @@
 <div id="chat-area">
     <div id="chat-window"></div>
     <div id="input-area">
+        <!-- Input untuk perintah -->
         <input type="text" id="command-input" placeholder="Kirim Perintah" />
+        <!-- Tombol Kirim -->
         <button id="send-button" onclick="executeCommand()">Kirim</button>
     </div>
+    <!-- Tombol Ganti Gambar -->
     <button id="change-image-btn" onclick="reloadPage()">Muat Ulang Fitur</button>
-    <div id="ai-limit-msg"></div>
+    <div id="ai-limit-msg"></div> <!-- Pesan batasan penggunaan AI -->
 </div>
+
+<script>
+    // Fungsi untuk mengeksekusi perintah
+    function executeCommand() {
+        const commandInput = document.getElementById('command-input'); // Ambil input dari form
+        const command = commandInput.value.trim(); // Ambil nilai input dan hilangkan spasi di sekitar
+        
+        // Cek apakah input tidak kosong
+        if (command) {
+            sendCommand(command); // Kirim perintah ke server atau API
+            commandInput.value = ''; // Reset input setelah mengirim perintah
+        } else {
+            alert("Perintah tidak boleh kosong!"); // Tampilkan peringatan jika input kosong
+        }
+    }
+
+    // Fungsi untuk mengirimkan perintah ke chat
+    function sendCommand(command) {
+        const chatWindow = document.getElementById('chat-window');
+        
+        // Membuat elemen baru untuk pesan
+        const messageDiv = document.createElement('div');
+        messageDiv.textContent = "User: " + command;
+        chatWindow.appendChild(messageDiv);
+        
+        // Scroll chat ke bawah agar pesan terbaru terlihat
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+
+        // Call fetchResponse atau server API untuk mendapatkan respons
+        fetchResponse(command);
+    }
+
+    // Fungsi untuk mengambil respon dari perintah
+    async function fetchResponse(command) {
+        // Implementasikan logika pengambilan response dari server/API
+        // Contoh ini hanya untuk simulasi
+        const responseMessage = "Respon dari AI: " + command; // Ganti dengan respons nyata
+        const chatWindow = document.getElementById('chat-window');
+
+        const responseDiv = document.createElement('div');
+        responseDiv.textContent = responseMessage;
+        chatWindow.appendChild(responseDiv);
+        
+        // Scroll chat ke bawah agar pesan terbaru terlihat
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+
+    // Fungsi untuk reload halaman
+    function reloadPage() {
+        alert('Muat ulang fitur');
+        location.reload();  // Reload halaman
+    }
+</script>
 
 <script>
     const chatWindow = document.getElementById('chat-window');
@@ -135,6 +191,7 @@
         messageDiv.classList.add('chat-message');
         
         if (message.startsWith('http')) {
+            // Menampilkan gambar jika URL dimulai dengan 'http'
             const img = document.createElement('img');
             img.src = message;
             messageDiv.appendChild(img);
@@ -144,17 +201,6 @@
         
         chatWindow.appendChild(messageDiv);
         chatWindow.scrollTop = chatWindow.scrollHeight;
-    }
-
-    function executeCommand() {
-        const command = commandInput.value.trim();
-        
-        if (command) {
-            sendCommand(command); 
-            commandInput.value = ''; 
-        } else {
-            alert("Perintah tidak boleh kosong!"); 
-        }
     }
 
     function sendCommand(command) {
@@ -173,7 +219,8 @@
         } else if (command === '/waifu') {
             imageUrl = 'https://beforelife.me/api/anime/waifu?apikey=HC-9NRYRw0xbyuGn3P';
         } else if (command.startsWith('/ai ')) {
-            const question = command.slice(4);
+            // Mengambil pertanyaan dari perintah /ai
+            const question = command.slice(4); // Mengambil teks setelah /ai
             const apiUrl = `https://api.velixs.com/nakiri?apikey=7ea543de712c083ddca99a35a85aee3cb0095c09d5f1630b58&text=${encodeURIComponent(question)}`;
 
             if (aiUsageCount >= aiUsageLimit) {
@@ -181,21 +228,50 @@
                 aiLimitMsg.textContent = 'Fitur AI sudah tidak bisa digunakan lagi hari ini.';
                 return;
             } else {
-                aiUsageCount++; 
+                aiUsageCount++; // Increment penggunaan AI
                 const response = await getAIResponse(apiUrl);
                 appendMessage(response, 'Bot');
                 aiLimitMsg.textContent = `Sisa penggunaan AI hari ini: ${aiUsageLimit - aiUsageCount}`;
                 return;
             }
         } else {
-            appendMessage('Perintah tidak dikenal.', 'Bot');
+            const baseUrl = 'https://beforelife.me/api/ephoto/';
+            const texts = 'text=';
+            const tanda = '?';
+            const mana = 'Text?';
+            const features = ['water', 'pig', 'halloween', 'cake'];
+            
+            for (let feature of features) {
+                if (command.startsWith(`/${feature}`)) {
+                    const text = command.slice(feature.length + 2); 
+                    let requestUrl = '';
+
+                    if (text.trim() === '') {
+                        requestUrl = `${baseUrl}${feature}?&apikey=HC-9NRYRw0xbyuGn3P`;
+                        appendMessage(`${mana}?`, 'Deca-Ephoto');
+                    } else {
+                        requestUrl = `${baseUrl}${feature}${tanda}${texts}${encodeURIComponent(text)}&apikey=HC-9NRYRw0xbyuGn3P`;
+                    }
+
+                    imageUrl = requestUrl;
+                    appendMessage(imageUrl, 'Deca-Auto-Generate');
+                    return;
+                }
+            }
+
+            appendMessage('?', 'Deca-Idk');
+            return;
         }
-        
+
         appendMessage(imageUrl, 'Bot');
     }
 
+    // Fungsi untuk mengirim perintah reload dan reload halaman
     function reloadPage() {
-        location.reload();  
+        appendMessage('/reload', 'UserGuest-0045');
+        setTimeout(() => {
+            location.reload();  
+        }, 1000); // Tunggu 1 detik sebelum halaman di-reload
     }
 
     async function getAIResponse(apiUrl) {
@@ -207,7 +283,7 @@
         }
 
         const data = await response.json();
-        return data.result || 'Tidak ada respons dari API'; 
+        return data.result || 'Tidak ada respons dari API'; // Mengambil respons dari API
     }
 </script>
 
