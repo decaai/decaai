@@ -239,30 +239,33 @@
                 aiLimitMsg.textContent = `Sisa penggunaan AI hari ini: ${aiUsageLimit - aiUsageCount}`;
                 return;
             }
-			 if (command.startsWith('/pinterest ')) {
-            const query = command.slice(11).trim(); // Mengambil kata kunci setelah '/pinterest'
+  if (command.startsWith('/pinterest ')) {
+            const query = command.slice(11).trim();
             const pinterestUrl = `https://www.pinterest.com/search/pins/?q=${encodeURIComponent(query)}`;
 
-            // Fetch data dari Pinterest (menggunakan AllOrigins untuk mengatasi CORS)
-            const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(pinterestUrl)}`);
-            const data = await response.json();
-            const htmlContent = data.contents;
+            try {
+                const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(pinterestUrl)}`);
+                const data = await response.json();
+                const htmlContent = data.contents;
 
-            // Regex untuk mendapatkan URL gambar dari hasil pencarian Pinterest
-            const regex = /"src":"(https:\/\/i\.pinimg\.com\/.*?\.jpg)"/g;
-            let match;
-            let count = 0;
-            
-            while ((match = regex.exec(htmlContent)) !== null && count < 5) {
-                const imageUrl = match[1];
-                appendMessage(imageUrl, 'Bot');
-                count++;
+                const regex = /"(https:\/\/i\.pinimg\.com\/originals\/.*?\.jpg)"/g;
+                let match;
+                let count = 0;
+
+                while ((match = regex.exec(htmlContent)) !== null && count < 5) {
+                    appendMessage(match[1], 'Bot');
+                    count++;
+                }
+
+                if (count === 0) {
+                    appendMessage('Tidak ada gambar ditemukan untuk pencarian ini.', 'Bot');
+                }
+            } catch (error) {
+                appendMessage('Terjadi kesalahan saat mengambil data dari Pinterest.', 'Bot');
             }
-            return;
-        }
-
-        appendMessage('Perintah tidak dikenal.', 'Bot');
         } else {
+            appendMessage('Perintah tidak dikenal.', 'Bot');
+			}
             const baseUrl = 'https://beforelife.me/api/ephoto/';
             const texts = 'text=';
             const tanda = '?';
