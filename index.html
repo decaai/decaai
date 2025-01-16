@@ -255,7 +255,7 @@
             
             while ((match = regex.exec(htmlContent)) !== null && count < 5) {
                 const imgUrl = match[1];
-                appendMessage(imgUrl, 'Bot');
+                appendMessage('Bot');
                 count++;
             }
             return;
