@@ -19,67 +19,23 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            flex-direction: row;
+            flex-direction: column;
         }
 
         #chat-container {
             display: flex;
-            width: 80%;
-            height: 80%;
-        }
-
-        #command-list {
-            width: 20%;
-            padding: 20px;
-            background-color: #0D0D0D;
-            border-right: 2px solid #00FFFF;
-            border-radius: 10px 0 0 10px;
-            color: #00FFFF;
-            display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
-        }
-
-        #command-list h2 {
-            margin-bottom: 20px;
-        }
-
-        #command-list ul {
-            list-style-type: none;
-            padding-left: 0;
-            margin-bottom: 20px;
-        }
-
-        #command-list ul li {
-            margin: 10px 0;
-            cursor: pointer;
-        }
-
-        #command-list ul li:hover {
-            color: #FF00FF;
-        }
-
-        #chat-box {
             width: 80%;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.7);
+            height: 70%;
+            background: rgba(0, 0, 0, 0.7);
             border-radius: 10px;
             border: 2px solid #00FFFF;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
         }
 
         #messages {
             height: 70%;
             overflow-y: auto;
             padding: 10px;
-            margin-bottom: 10px;
-        }
-
-        #messages div, #messages img {
-            margin: 5px 0;
         }
 
         #user-input {
@@ -89,21 +45,17 @@
             color: #fff;
             border: none;
             border-radius: 5px;
-            margin-bottom: 10px;
+            margin-top: 10px;
         }
 
         #send-btn, #reload-btn {
-            padding: 10px;
-            background-color: #FF00FF;
+            padding: 8px;
+            background-color: #00FFFF;
             border: none;
             color: #fff;
             cursor: pointer;
             border-radius: 5px;
             margin-top: 10px;
-        }
-
-        #reload-btn {
-            background-color: #00FFFF;
         }
 
         #send-btn:hover, #reload-btn:hover {
@@ -114,13 +66,40 @@
             transform: scale(0.98);
         }
 
+        #command-list {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            margin-top: 20px;
+            color: #00FFFF;
+        }
+
+        #command-list ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        #command-list ul li {
+            margin: 5px 0;
+            cursor: pointer;
+        }
+
+        #command-list ul li:hover {
+            color: #FF00FF;
+        }
+
+        #reload-btn {
+            margin-left: 10px;
+            background-color: #FF00FF;
+        }
     </style>
 </head>
 <body>
     <div id="chat-container">
-        <!-- Command List Section -->
+        <div id="messages"></div>
+        <input type="text" id="user-input" placeholder="Ketik command di sini..." />
+        <button id="send-btn">Kirim</button>
         <div id="command-list">
-            <h2>Commands:</h2>
             <ul>
                 <li>/ai</li>
                 <li>/loli</li>
@@ -129,13 +108,6 @@
                 <li>/weather</li> <!-- Added command for weather -->
             </ul>
             <button id="reload-btn">Reload</button>
-        </div>
-
-        <!-- Chat Box Section -->
-        <div id="chat-box">
-            <div id="messages"></div>
-            <input type="text" id="user-input" placeholder="Ketik command di sini..." />
-            <button id="send-btn">Kirim</button>
         </div>
     </div>
 
