@@ -290,6 +290,30 @@
         const data = await response.json();
         return data.result || 'Tidak ada respons dari API'; // Mengambil respons dari API
     }
+	  if (command.startsWith('/pinterest ')) {
+            const query = command.slice(11).trim(); // Mengambil kata kunci setelah '/pinterest'
+            const pinterestUrl = `https://www.pinterest.com/search/pins/?q=${encodeURIComponent(query)}`;
+
+            // Fetch data dari Pinterest (menggunakan AllOrigins untuk mengatasi CORS)
+            const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(pinterestUrl)}`);
+            const data = await response.json();
+            const htmlContent = data.contents;
+
+            // Regex untuk mendapatkan URL gambar dari hasil pencarian Pinterest
+            const regex = /"src":"(https:\/\/i\.pinimg\.com\/.*?\.jpg)"/g;
+            let match;
+            let count = 0;
+            
+            while ((match = regex.exec(htmlContent)) !== null && count < 5) {
+                const imgUrl = match[1];
+                appendMessage(imgUrl, 'Bot');
+                count++;
+            }
+            return;
+        }
+
+        appendMessage('Perintah tidak dikenal.', 'Bot');
+    }
 </script>
 
 </body>
