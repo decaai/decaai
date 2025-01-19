@@ -10,7 +10,7 @@
       font-family: 'Arial', sans-serif;
       margin: 0;
       padding: 0;
-      background: #1a1a1a; /* Abu-abu gelap */
+      background: #1a1a1a;
       color: #ffffff;
       display: flex;
       align-items: center;
@@ -22,10 +22,10 @@
       width: 90%;
       max-width: 700px;
       height: 80%;
-      background: linear-gradient(145deg, #232323, #1e1e1e); /* Efek gelap */
-      border: 2px solid #8f00ff; /* Neon Ungu */
+      background: linear-gradient(145deg, #232323, #1e1e1e);
+      border: 2px solid #8f00ff;
       border-radius: 15px;
-      box-shadow: 0px 0px 20px 5px #8f00ff; /* Glow Neon */
+      box-shadow: 0px 0px 20px 5px #8f00ff;
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -34,7 +34,7 @@
       flex: 1;
       padding: 15px;
       overflow-y: auto;
-      background: #1a1a1a; /* Warna dasar chat */
+      background: #1a1a1a;
       color: #e0e0e0;
       scrollbar-width: thin;
       scrollbar-color: #8f00ff #232323;
@@ -53,19 +53,19 @@
     }
     #chat .user {
       text-align: right;
-      background: #6c00ff; /* Neon Ungu User */
+      background: #6c00ff;
       color: #ffffff;
       margin-left: 50px;
     }
     #chat .bot {
       text-align: left;
-      background: #292929; /* Bot Background */
-      color: #8f00ff; /* Neon Bot Text */
+      background: #292929;
+      color: #8f00ff;
       margin-right: 50px;
     }
     #input-container {
       display: flex;
-      background: #232323; /* Gelap */
+      background: #232323;
       border-top: 2px solid #8f00ff;
     }
     #input-container input {
@@ -73,25 +73,25 @@
       padding: 15px;
       border: none;
       outline: none;
-      background: #1a1a1a; /* Input Gelap */
+      background: #1a1a1a;
       color: #ffffff;
       font-size: 16px;
       border-radius: 0;
     }
     #input-container input::placeholder {
-      color: #8f00ff; /* Placeholder Neon */
+      color: #8f00ff;
     }
     #input-container button {
       padding: 15px 20px;
       border: none;
-      background: #8f00ff; /* Tombol Neon */
+      background: #8f00ff;
       color: #ffffff;
       font-size: 16px;
       cursor: pointer;
       transition: all 0.3s ease;
     }
     #input-container button:hover {
-      background: #aa00ff; /* Tombol Hover */
+      background: #aa00ff;
     }
   </style>
 </head>
@@ -106,7 +106,7 @@
 </div>
 
 <script>
-  const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyBjuX09zuNhnF8kORR_qqW92rZngsZwJdA'; // Ganti dengan URL API lokal kamu
+  const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDpA7RbFVp6nryKmUkd72MnwjTY70Ezano';
 
   async function sendMessage() {
     const chat = document.getElementById('chat');
@@ -119,20 +119,28 @@
     chat.innerHTML += `<p class="user">${message}</p>`;
     userInput.value = '';
 
-    // Panggil API lokal kamu
     try {
+      // Kirim permintaan ke Google Generative Language API
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message })
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [{ text: message }]
+            }
+          ]
+        }),
       });
 
       if (!response.ok) throw new Error('Gagal menghubungi server!');
 
       const data = await response.json();
-      const botReply = data.reply; // Pastikan server mengembalikan { "reply": "..." }
+
+      // Ambil balasan dari API
+      const botReply = data.contents[0].parts[0].text;
 
       // Tambahkan balasan bot ke chat
       chat.innerHTML += `<p class="bot">${botReply}</p>`;
