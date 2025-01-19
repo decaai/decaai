@@ -1,203 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neon ChatBot</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Courier New', Courier, monospace;
-            background: #121212;
-            color: #00FFFF;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-        }
-
-        #chat-container {
-            display: flex;
-            flex-direction: column;
-            width: 80%;
-            height: 70%;
-            background: rgba(0, 0, 0, 0.7);
-            border-radius: 10px;
-            border: 2px solid #00FFFF;
-        }
-
-        #messages {
-            height: 70%;
-            overflow-y: auto;
-            padding: 10px;
-        }
-
-        #user-input {
-            width: 100%;
-            padding: 10px;
-            background-color: #333;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-
-        #send-btn, #reload-btn {
-            padding: 8px;
-            background-color: #00FFFF;
-            border: none;
-            color: #fff;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-
-        #send-btn:hover, #reload-btn:hover {
-            opacity: 0.8;
-        }
-
-        #send-btn:active, #reload-btn:active {
-            transform: scale(0.98);
-        }
-
-        #command-list {
-            display: flex;
-            justify-content: space-between;
-            width: 80%;
-            margin-top: 20px;
-            color: #00FFFF;
-        }
-
-        #command-list ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-
-        #command-list ul li {
-            margin: 5px 0;
-            cursor: pointer;
-        }
-
-        #command-list ul li:hover {
-            color: #FF00FF;
-        }
-
-        #reload-btn {
-            margin-left: 10px;
-            background-color: #FF00FF;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Chat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+    #chat-container {
+      width: 90%;
+      max-width: 600px;
+      height: 80%;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    #chat {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+    }
+    #chat p {
+      margin: 5px 0;
+    }
+    #chat .user {
+      text-align: right;
+      color: blue;
+    }
+    #chat .bot {
+      text-align: left;
+      color: green;
+    }
+    #input-container {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+    #input-container input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 0;
+      outline: none;
+    }
+    #input-container button {
+      padding: 10px 20px;
+      border: none;
+      background: blue;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-    <div id="chat-container">
-        <div id="messages"></div>
-        <input type="text" id="user-input" placeholder="Ketik command di sini..." />
-        <button id="send-btn">Kirim</button>
-        <div id="command-list">
-            <ul>
-                <li>/ai</li>
-                <li>/loli</li>
-                <li>/waifu</li>
-                <li>/husbu</li>
-                <li>/weather</li> <!-- Added command for weather -->
-            </ul>
-            <button id="reload-btn">Reload</button>
-        </div>
-    </div>
 
-    <script>
-        document.getElementById('send-btn').addEventListener('click', async () => {
-            const userInput = document.getElementById('user-input').value;
-            if (!userInput) return;
+<div id="chat-container">
+  <div id="chat"></div>
+  <div id="input-container">
+    <input type="text" id="user-input" placeholder="Tulis pesan...">
+    <button onclick="sendMessage()">Kirim</button>
+  </div>
+</div>
 
-            appendMessage('User: ' + userInput);
+<script>
+  async function sendMessage() {
+    const chat = document.getElementById('chat');
+    const userInput = document.getElementById('user-input');
+    const message = userInput.value.trim();
 
-            if (userInput.startsWith('/ai')) {
-                const response = await fetchAI(userInput);
-                appendMessage('AI: ' + response);
-            } else if (userInput.startsWith('/loli')) {
-                const imageUrl = await fetchImage('loli');
-                appendImage(imageUrl);
-            } else if (userInput.startsWith('/waifu')) {
-                const imageUrl = await fetchImage('waifu');
-                appendImage(imageUrl);
-            } else if (userInput.startsWith('/husbu')) {
-                const imageUrl = await fetchImage('husbu');
-                appendImage(imageUrl);
-            } else if (userInput.startsWith('/weather')) {
-                const city = userInput.split(' ')[1];
-                if (!city) {
-                    appendMessage('Bot: Harap masukkan nama kota setelah perintah /weather.');
-                } else {
-                    const weatherInfo = await fetchWeather(city);
-                    appendMessage('Weather: ' + weatherInfo);
-                }
-            } else {
-                appendMessage('Bot: Command tidak dikenal.');
-            }
+    if (!message) return;
 
-            document.getElementById('user-input').value = '';
-        });
+    // Tambahkan pesan user ke chat
+    chat.innerHTML += `<p class="user">${message}</p>`;
+    userInput.value = '';
 
-        document.getElementById('reload-btn').addEventListener('click', () => {
-            location.reload(); // Reload the page
-        });
+    // Panggil OpenAI API
+    try {
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer API_KEY_AI_KAMU`
+        },
+        body: JSON.stringify({
+          model: 'gpt-3.5-turbo',
+          messages: [{ role: 'user', content: message }]
+        })
+      });
 
-        function appendMessage(message) {
-            const messagesDiv = document.getElementById('messages');
-            const newMessage = document.createElement('div');
-            newMessage.textContent = message;
-            messagesDiv.appendChild(newMessage);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to the bottom
-        }
+      const data = await response.json();
+      const botReply = data.choices[0].message.content;
 
-        function appendImage(imageUrl) {
-            const messagesDiv = document.getElementById('messages');
-            const newImage = document.createElement('img');
-            newImage.src = imageUrl;
-            newImage.style.width = '100%';
-            messagesDiv.appendChild(newImage);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        }
+      // Tambahkan balasan bot ke chat
+      chat.innerHTML += `<p class="bot">${botReply}</p>`;
+    } catch (error) {
+      chat.innerHTML += `<p class="bot">Error: Gagal mengambil data dari bot!</p>`;
+      console.error(error);
+    }
 
-        async function fetchAI(query) {
-            const apiKey = 'YOUR_API_KEY_HERE';
-            const apiUrl = `https://api.example.com/ai?query=${encodeURIComponent(query)}&apikey=${apiKey}`;
-            const response = await fetch(apiUrl);
-            const data = await response.json();
-            return data.response;
-        }
+    // Auto-scroll ke bawah
+    chat.scrollTop = chat.scrollHeight;
+  }
+</script>
 
-        async function fetchImage(type) {
-            const apiKey = 'YOUR_API_KEY_HERE';
-            const apiUrl = `https://api.example.com/${type}?apikey=${apiKey}`;
-            const response = await fetch(apiUrl);
-            const data = await response.json();
-            return data.imageUrl;
-        }
-
-        async function fetchWeather(city) {
-            const apiKey = 'YOUR_WEATHER_API_KEY_HERE'; // Replace with your weather API key
-            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=id`;
-            const response = await fetch(apiUrl);
-            const data = await response.json();
-
-            if (data.cod !== 200) {
-                return `Tidak dapat menemukan cuaca untuk kota ${city}.`;
-            }
-
-            const weatherDescription = data.weather[0].description;
-            const temp = data.main.temp;
-            const humidity = data.main.humidity;
-
-            return `Cuaca di ${city}: ${weatherDescription}, suhu ${temp}°C, kelembapan ${humidity}%.`;
-        }
-    </script>
 </body>
 </html>
