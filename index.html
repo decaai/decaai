@@ -1,158 +1,184 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cyberpunk AI Chat</title>
-  <style>
-    /* Cyberpunk Theme */
-    body {
-      font-family: 'Arial', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #1a1a1a;
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      overflow: hidden;
-    }
-    #chat-container {
-      width: 90%;
-      max-width: 700px;
-      height: 80%;
-      background: linear-gradient(145deg, #232323, #1e1e1e);
-      border: 2px solid #8f00ff;
-      border-radius: 15px;
-      box-shadow: 0px 0px 20px 5px #8f00ff;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    #chat {
-      flex: 1;
-      padding: 15px;
-      overflow-y: auto;
-      background: #1a1a1a;
-      color: #e0e0e0;
-      scrollbar-width: thin;
-      scrollbar-color: #8f00ff #232323;
-    }
-    #chat::-webkit-scrollbar {
-      width: 8px;
-    }
-    #chat::-webkit-scrollbar-thumb {
-      background: #8f00ff;
-      border-radius: 10px;
-    }
-    #chat p {
-      margin: 10px 0;
-      padding: 10px;
-      border-radius: 8px;
-    }
-    #chat .user {
-      text-align: right;
-      background: #6c00ff;
-      color: #ffffff;
-      margin-left: 50px;
-    }
-    #chat .bot {
-      text-align: left;
-      background: #292929;
-      color: #8f00ff;
-      margin-right: 50px;
-    }
-    #input-container {
-      display: flex;
-      background: #232323;
-      border-top: 2px solid #8f00ff;
-    }
-    #input-container input {
-      flex: 1;
-      padding: 15px;
-      border: none;
-      outline: none;
-      background: #1a1a1a;
-      color: #ffffff;
-      font-size: 16px;
-      border-radius: 0;
-    }
-    #input-container input::placeholder {
-      color: #8f00ff;
-    }
-    #input-container button {
-      padding: 15px 20px;
-      border: none;
-      background: #8f00ff;
-      color: #ffffff;
-      font-size: 16px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    #input-container button:hover {
-      background: #aa00ff;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Tanya Jawab - Ephoto Menu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .menu-container {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+        }
+        .menu-container h2 {
+            margin-bottom: 20px;
+        }
+        .menu-container ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .menu-container li {
+            margin-bottom: 10px;
+        }
+        .menu-container a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .menu-container a:hover {
+            text-decoration: underline;
+        }
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+        #resultImage {
+            max-width: 100%;
+            display: none;
+        }
+    </style>
 </head>
 <body>
 
-<div id="chat-container">
-  <div id="chat"></div>
-  <div id="input-container">
-    <input type="text" id="user-input" placeholder="Tulis pesan...">
-    <button onclick="sendMessage()">Kirim</button>
-  </div>
-</div>
+    <div class="menu-container">
+        <h2><b>EPHOTO MENU</b></h2>
+        <ul>
+            <!-- Download Menu -->
+            <li><a href="#" onclick="generateImage('play', 'Hello World!')">Play</a></li>
+            <li><a href="#" onclick="generateImage('mediafire', 'Hello World!')">MediaFire</a></li>
+            <li><a href="#" onclick="generateImage('gitclone', 'Hello World!')">GitClone</a></li>
+            <li><a href="#" onclick="generateImage('ytmp3', 'Hello World!')">YTMP3</a></li>
+            <li><a href="#" onclick="generateImage('ytmp4', 'Hello World!')">YTMP4</a></li>
+            <li><a href="#" onclick="generateImage('igmp4', 'Hello World!')">IGMP4</a></li>
+            <li><a href="#" onclick="generateImage('igdl', 'Hello World!')">IGDL</a></li>
+            <li><a href="#" onclick="generateImage('gdrive', 'Hello World!')">GDrive</a></li>
+            <li><a href="#" onclick="generateImage('tiktok', 'Hello World!')">TikTok</a></li>
+            <li><a href="#" onclick="generateImage('tiktokhd', 'Hello World!')">TikTok HD</a></li>
+            <li><a href="#" onclick="generateImage('tiktokaudio', 'Hello World!')">TikTok Audio</a></li>
+            <li><a href="#" onclick="generateImage('snackvideo', 'Hello World!')">Snack Video</a></li>
 
-<script>
-  const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDpA7RbFVp6nryKmUkd72MnwjTY70Ezano';
+            <!-- Ephoto Menu -->
+            <li><a href="#" onclick="generateImage('glitchtext', 'Hello World!')">Glitch Text</a></li>
+            <li><a href="#" onclick="generateImage('writetext', 'Hello World!')">Write Text</a></li>
+            <li><a href="#" onclick="generateImage('advancedglow', 'Glow Effect')">Advanced Glow</a></li>
+            <li><a href="#" onclick="generateImage('typographytext', 'Typography Text')">Typography Text</a></li>
+            <li><a href="#" onclick="generateImage('pixelglitch', 'Pixel Glitch')">Pixel Glitch</a></li>
+            <li><a href="#" onclick="generateImage('neonglitch', 'Neon Glitch')">Neon Glitch</a></li>
+            <li><a href="#" onclick="generateImage('flagtext', 'Flag Text')">Flag Text</a></li>
+            <li><a href="#" onclick="generateImage('flag3dtext', '3D Flag Text')">3D Flag Text</a></li>
+            <li><a href="#" onclick="generateImage('deletingtext', 'Deleting Text')">Deleting Text</a></li>
+            <li><a href="#" onclick="generateImage('blackpinkstyle', 'Blackpink Style')">Blackpink Style</a></li>
+            <li><a href="#" onclick="generateImage('glowingtext', 'Glowing Text')">Glowing Text</a></li>
+            <li><a href="#" onclick="generateImage('underwatertext', 'Underwater Text')">Underwater Text</a></li>
+            <li><a href="#" onclick="generateImage('logomaker', 'Logo Maker')">Logo Maker</a></li>
+            <li><a href="#" onclick="generateImage('cartoonstyle', 'Cartoon Style')">Cartoon Style</a></li>
+            <li><a href="#" onclick="generateImage('papercutstyle', 'Paper Cut Style')">Paper Cut Style</a></li>
+            <li><a href="#" onclick="generateImage('watercolortext', 'Watercolor Text')">Watercolor Text</a></li>
+            <li><a href="#" onclick="generateImage('effectclouds', 'Cloud Effects')">Effect Clouds</a></li>
+            <li><a href="#" onclick="generateImage('blackpinklogo', 'Blackpink Logo')">Blackpink Logo</a></li>
+            <li><a href="#" onclick="generateImage('gradienttext', 'Gradient Text')">Gradient Text</a></li>
+            <li><a href="#" onclick="generateImage('summerbeach', 'Summer Beach')">Summer Beach</a></li>
+            <li><a href="#" onclick="generateImage('luxurygold', 'Luxury Gold')">Luxury Gold</a></li>
+            <li><a href="#" onclick="generateImage('multicoloredneon', 'Multicolored Neon')">Multicolored Neon</a></li>
+            <li><a href="#" onclick="generateImage('sandsummer', 'Sand Summer')">Sand Summer</a></li>
+            <li><a href="#" onclick="generateImage('galaxywallpaper', 'Galaxy Wallpaper')">Galaxy Wallpaper</a></li>
+            <li><a href="#" onclick="generateImage('1917style', '1917 Style')">1917 Style</a></li>
+            <li><a href="#" onclick="generateImage('makingneon', 'Making Neon')">Making Neon</a></li>
+            <li><a href="#" onclick="generateImage('royaltext', 'Royal Text')">Royal Text</a></li>
+            <li><a href="#" onclick="generateImage('freecreate', 'Free Create')">Free Create</a></li>
+            <li><a href="#" onclick="generateImage('galaxystyle', 'Galaxy Style')">Galaxy Style</a></li>
+            <li><a href="#" onclick="generateImage('lighteffects', 'Light Effects')">Light Effects</a></li>
+        </ul>
+    </div>
 
-  async function sendMessage() {
-    const chat = document.getElementById('chat');
-    const userInput = document.getElementById('user-input');
-    const message = userInput.value.trim();
+    <div class="content">
+        <h2>Selamat datang di Website Tanya Jawab!</h2>
+        <p>Silakan pilih menu di samping untuk membuat gambar dengan teks.</p>
 
-    if (!message) return;
+        <h3>Hasil Gambar:</h3>
+        <img id="resultImage" src="" alt="Gambar Hasil">
+        <p id="resultMessage"></p>
+    </div>
 
-    // Tambahkan pesan user ke chat
-    chat.innerHTML += `<p class="user">${message}</p>`;
-    userInput.value = '';
+    <script>
+        // Daftar perintah dan URL untuk fitur Ephoto
+        const ephotoUrls = {
+            'play': 'https://en.ephoto360.com/create-digital-glitch-text-effects-online-767.html',
+            'mediafire': 'https://en.ephoto360.com/write-text-on-wet-glass-online-589.html',
+            'gitclone': 'https://en.ephoto360.com/advanced-glow-effects-74.html',
+            'ytmp3': 'https://en.ephoto360.com/create-typography-text-effect-on-pavement-online-774.html',
+            'ytmp4': 'https://en.ephoto360.com/create-pixel-glitch-text-effect-online-769.html',
+            'igmp4': 'https://en.ephoto360.com/create-impressive-neon-glitch-text-effects-online-768.html',
+            'igdl': 'https://en.ephoto360.com/nigeria-3d-flag-text-effect-online-free-753.html',
+            'gdrive': 'https://en.ephoto360.com/free-online-american-flag-3d-text-effect-generator-725.html',
+            'tiktok': 'https://en.ephoto360.com/create-eraser-deleting-text-effect-online-717.html',
+            'tiktokhd': 'https://en.ephoto360.com/online-blackpink-style-logo-maker-effect-711.html',
+            'tiktokaudio': 'https://en.ephoto360.com/create-glowing-text-effects-online-706.html',
+            'snackvideo': 'https://en.ephoto360.com/3d-underwater-text-effect-online-682.html',
+            'glitchtext': 'https://en.ephoto360.com/create-digital-glitch-text-effects-online-767.html',
+            'writetext': 'https://en.ephoto360.com/write-text-on-wet-glass-online-589.html',
+            'advancedglow': 'https://en.ephoto360.com/advanced-glow-effects-74.html',
+            'typographytext': 'https://en.ephoto360.com/create-typography-text-effect-on-pavement-online-774.html',
+            'pixelglitch': 'https://en.ephoto360.com/create-pixel-glitch-text-effect-online-769.html',
+            'neonglitch': 'https://en.ephoto360.com/create-impressive-neon-glitch-text-effects-online-768.html',
+            'flagtext': 'https://en.ephoto360.com/nigeria-3d-flag-text-effect-online-free-753.html',
+            'flag3dtext': 'https://en.ephoto360.com/free-online-american-flag-3d-text-effect-generator-725.html',
+            'deletingtext': 'https://en.ephoto360.com/create-eraser-deleting-text-effect-online-717.html',
+            'blackpinkstyle': 'https://en.ephoto360.com/online-blackpink-style-logo-maker-effect-711.html',
+            'glowingtext': 'https://en.ephoto360.com/create-glowing-text-effects-online-706.html',
+            'underwatertext': 'https://en.ephoto360.com/3d-underwater-text-effect-online-682.html',
+            'logomaker': 'https://en.ephoto360.com/free-bear-logo-maker-online-673.html',
+            'cartoonstyle': 'https://en.ephoto360.com/create-a-cartoon-style-graffiti-text-effect-online-668.html',
+            'papercutstyle': 'https://en.ephoto360.com/multicolor-3d-paper-cut-style-text-effect-658.html',
+            'watercolortext': 'https://en.ephoto360.com/create-a-watercolor-text-effect-online-655.html',
+            'effectclouds': 'https://en.ephoto360.com/write-text-effect-clouds-in-the-sky-online-619.html',
+            'blackpinklogo': 'https://en.ephoto360.com/create-blackpink-logo-online-free-607.html',
+            'gradienttext': 'https://en.ephoto360.com/create-3d-gradient-text-effect-online-600.html',
+            'summerbeach': 'https://en.ephoto360.com/write-in-sand-summer-beach-online-free-595.html',
+            'luxurygold': 'https://en.ephoto360.com/create-a-luxury-gold-text-effect-online-594.html',
+            'multicoloredneon': 'https://en.ephoto360.com/create-multicolored-neon-light-signatures-591.html',
+            'sandsummer': 'https://en.ephoto360.com/write-in-sand-summer-beach-online-576.html',
+            'galaxywallpaper': 'https://en.ephoto360.com/create-galaxy-wallpaper-mobile-online-528.html',
+            '1917style': 'https://en.ephoto360.com/1917-style-text-effect-523.html',
+            'makingneon': 'https://en.ephoto360.com/making-neon-light-text-effect-with-galaxy-style-521.html',
+            'royaltext': 'https://en.ephoto360.com/royal-text-effect-online-free-471.html',
+            'freecreate': 'https://en.ephoto360.com/free-create-a-3d-hologram-text-effect-441.html',
+            'galaxystyle': 'https://en.ephoto360.com/create-galaxy-style-free-name-logo-438.html',
+            'lighteffects': 'https://en.ephoto360.com/create-light-effects-green-neon-online-429.html'
+        };
 
-    try {
-      // Kirim permintaan ke Google Generative Language API
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts: [{ text: message }]
+        // Fungsi untuk memproses dan menampilkan gambar sesuai dengan fitur yang dipilih
+        function generateImage(command, text) {
+            const resultMessage = document.getElementById('resultMessage');
+            const resultImage = document.getElementById('resultImage');
+
+            // Menentukan URL API yang sesuai berdasarkan perintah
+            const ephotoUrl = ephotoUrls[command.toLowerCase()];
+            if (!ephotoUrl) {
+                resultMessage.textContent = 'Perintah tidak valid!';
+                resultImage.style.display = 'none';
+                return;
             }
-          ]
-        }),
-      });
 
-      if (!response.ok) throw new Error('Gagal menghubungi server!');
+            // Membuat URL lengkap untuk mengirim teks ke API Ephoto
+            const fullUrl = `${ephotoUrl}?text=${encodeURIComponent(text)}`;
 
-      const data = await response.json();
-
-      // Ambil balasan dari API
-      const botReply = data.contents[0].parts[0].text;
-
-      // Tambahkan balasan bot ke chat
-      chat.innerHTML += `<p class="bot">${botReply}</p>`;
-    } catch (error) {
-      chat.innerHTML += `<p class="bot">Error: Tidak dapat terhubung ke server!</p>`;
-      console.error(error);
-    }
-
-    // Auto-scroll ke bawah
-    chat.scrollTop = chat.scrollHeight;
-  }
-</script>
+            // Menampilkan gambar dan pesan
+            resultImage.src = fullUrl;
+            resultImage.style.display = 'block';
+            resultMessage.textContent = `Gambar sedang diproses untuk: ${text}`;
+        }
+    </script>
 
 </body>
-</html>
+                  </html>
+                  
